@@ -37,6 +37,7 @@ type Message struct {
 func (m *Message) ExtraFields() []zapcore.Field {
 	extraFields := []zapcore.Field{
 		zap.String(keySequence, m.Sequence),
+		zap.Time(keyStartTime, m.StartTime),
 		zap.String(keyUserID, m.UserID),
 		zap.String(keyUsername, m.Username),
 		zap.String(keyClientIP, m.ClientIP),
