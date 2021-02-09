@@ -2,6 +2,7 @@ package trace
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -46,6 +47,7 @@ func (m *Message) ExtraFields() []zapcore.Field {
 	for k, v := range m.ExtData {
 		extraFields = append(extraFields, zap.Any(k, v))
 	}
+	fmt.Printf("extraFields: %v", extraFields)
 	return extraFields
 }
 
