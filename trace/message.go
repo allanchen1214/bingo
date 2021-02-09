@@ -59,7 +59,7 @@ func GinMessage(c *gin.Context) *Message {
 			return msg
 		}
 	}
-	msg = &Message{Context: c, StartTime: time.Now()}
+	msg = &Message{Context: c, StartTime: time.Now(), ExtData: make(map[string]interface{}, 0)}
 	c.Set(KeyMessage, msg)
 	return msg
 }
