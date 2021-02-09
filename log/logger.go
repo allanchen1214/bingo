@@ -3,6 +3,7 @@ package log
 import (
 	"context"
 
+	"github.com/allanchen1214/bingo/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -50,4 +51,9 @@ func Fatal(msg string, fields ...zapcore.Field) {
 }
 
 func InfoWithContext(c context.Context, msg string, fields ...zapcore.Field) {
+	m := trace.MessageFromCtx(c)
+	if m.Logger == nil {
+		m.Logger = DefaultLogger
+	}
+	log(m.Logger.With(m.ExtraFields()...), infoLevel, msg, fields...)
 }
