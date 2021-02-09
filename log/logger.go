@@ -1,6 +1,8 @@
 package log
 
 import (
+	"context"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -45,4 +47,7 @@ func Error(msg string, fields ...zapcore.Field) {
 
 func Fatal(msg string, fields ...zapcore.Field) {
 	log(DefaultLogger, fatalLevel, msg, fields...)
+}
+
+func InfoWithContext(c context.Context, msg string, fields ...zapcore.Field) {
 }
