@@ -26,11 +26,12 @@ type Message struct {
 	StartTime time.Time
 	Logger    *zap.Logger
 
-	Sequence string
-	UserID   string
-	Username string
-	ClientIP string
-	DeviceID string
+	Sequence   string
+	UserID     string
+	Username   string
+	ClientIP   string
+	DeviceID   string
+	TestString string
 
 	ExtData map[string]interface{}
 }
@@ -43,6 +44,7 @@ func (m *Message) ExtraFields() []zapcore.Field {
 		zap.String(keyUsername, m.Username),
 		zap.String(keyClientIP, m.ClientIP),
 		zap.String(keyDeviceID, m.DeviceID),
+		zap.String("TestString", m.TestString),
 	}
 	for k, v := range m.ExtData {
 		extraFields = append(extraFields, zap.Any(k, v))
