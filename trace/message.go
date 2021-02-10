@@ -35,6 +35,20 @@ type Message struct {
 	ExtData map[string]interface{}
 }
 
+func (m *Message) MessageMap() map[string]interface{} {
+	msgmap := make(map[string]interface{}, 0)
+	msgmap[keySequence] = m.Sequence
+	msgmap[keyStartTime] = m.StartTime
+	msgmap[keyUserID] = m.UserID
+	msgmap[keyUsername] = m.Username
+	msgmap[keyClientIP] = m.ClientIP
+	msgmap[keyDeviceID] = m.DeviceID
+	for k, v := range m.ExtData {
+		msgmap[k] = v
+	}
+	return msgmap
+}
+
 func (m *Message) ExtraFields() []zapcore.Field {
 	extraFields := []zapcore.Field{
 		zap.String(keySequence, m.Sequence),
