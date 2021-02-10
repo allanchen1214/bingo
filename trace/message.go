@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	KeyMessage   = "TraceMsg"
+	keyMessage   = "TraceMsg"
 	keyStartTime = "StartTime" // 后端首次接收到请求时赋值，后端之间的服务调用需把该值拷贝到上下文，而非重新赋值
 	keySequence  = "Sequence"
 	keyUserID    = "UserID"
@@ -57,18 +57,16 @@ func (m *Message) ExtraFields() []zapcore.Field {
 		zap.String(keyUsername, m.Username),
 		zap.String(keyClientIP, m.ClientIP),
 		zap.String(keyDeviceID, m.DeviceID),
-		//zap.String("TestString", m.TestString),
 	}
 	for k, v := range m.ExtData {
 		extraFields = append(extraFields, zap.Any(k, v))
 	}
-	//fmt.Printf("extraFields: %v", extraFields)
 	return extraFields
 }
 
 // GinMessage 初始化设置或获取Gin Http Server跟踪上下文
 func GinMessage(c *gin.Context) *Message {
-	val, ok := c.Get(KeyMessage)
+	val, ok := c.Get(keyMessage)
 	var msg *Message
 	if ok {
 		msg, ok = val.(*Message)
@@ -76,11 +74,12 @@ func GinMessage(c *gin.Context) *Message {
 			return msg
 		}
 	}
-	msg = &Message{Context: c, StartTime: time.Now(), ExtData: make(map[string]interface{}, 0)}
-	c.Set(KeyMessage, msg)
+	msg = &Message{Context: c}
+	c.Set(keyMessage, msg)
 	return msg
 }
 
+// MessageFromCtx Get trace message from context
 func MessageFromCtx(c context.Context) *Message {
 	if ginCtx, ok := c.(*gin.Context); ok {
 		return GinMessage(ginCtx)

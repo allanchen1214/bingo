@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	// KeyBenchmark bm
+	// KeyBenchmark ..
 	KeyBenchmark = "Benchmark"
 
 	keyHandlerName = "HandlerName"
@@ -25,14 +25,14 @@ const (
 // Benchmark 记录处理耗时以及结果
 func Benchmark() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		msg := trace.GinMessage(c)
+		msg := trace.MessageFromCtx(c)
 		recvTime := time.Now()
 		preLatency := recvTime.Sub(msg.StartTime)
 
 		c.Next()
 
 		latency := time.Since(recvTime)
-		log.InfoWithContext(c, KeyBenchmark,
+		log.InfoContext(c, KeyBenchmark,
 			//zap.String(trace.KeySequence, msg.Sequence),
 			//zap.String(trace.KeyUserID, msg.UserID),
 			//zap.String(trace.KeyUsername, msg.Username),
